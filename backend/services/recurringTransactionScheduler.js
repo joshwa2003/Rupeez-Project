@@ -10,19 +10,33 @@ class RecurringTransactionScheduler {
   }
 
   /**
-   * Start the scheduler - runs once daily at midnight
+   * Start the scheduler - runs multiple times daily and on startup
    */
   start() {
-    // Run once at midnight (end of day)
+    // Run at midnight (main daily check)
     const dailyJob = cron.schedule('0 0 * * *', async () => {
-      console.log('[Scheduler] Running daily recurring transaction check...');
+      console.log('[Scheduler] Running daily recurring transaction check at midnight...');
+      await this.processRecurringTransactions();
+    });
+
+    // Run every 4 hours to catch missed transactions
+    const hourlyJob = cron.schedule('0 */4 * * *', async () => {
+      console.log('[Scheduler] Running 4-hourly recurring transaction check...');
       await this.processRecurringTransactions();
     });
 
     this.jobs.push(dailyJob);
+    this.jobs.push(hourlyJob);
     
     console.log('✓ Recurring transaction scheduler started');
     console.log('  - Daily check: Every day at midnight (00:00)');
+    console.log('  - Backup check: Every 4 hours');
+    
+    // Run initial check on startup to catch any missed transactions
+    setTimeout(async () => {
+      console.log('[Scheduler] Running startup check for missed transactions...');
+      await this.processRecurringTransactions();
+    }, 5000); // Wait 5 seconds for server to fully initialize
   }
 
   /**

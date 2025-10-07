@@ -423,4 +423,28 @@ router.get('/stats/summary', authenticateToken, async (req, res) => {
   }
 });
 
+// @route   POST /api/recurring-transactions/process
+// @desc    Manually trigger recurring transaction processing (for testing/admin)
+// @access  Private
+router.post('/process', authenticateToken, async (req, res) => {
+  try {
+    const recurringTransactionScheduler = require('../services/recurringTransactionScheduler');
+    
+    console.log(`[API] Manual recurring transaction processing triggered by user ${req.user.id}`);
+    await recurringTransactionScheduler.triggerManualProcess();
+    
+    res.json({
+      status: 'success',
+      message: 'Recurring transaction processing completed',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Manual recurring transaction processing error:', error);
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Server error while processing recurring transactions'
+    });
+  }
+});
+
 module.exports = router;

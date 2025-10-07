@@ -73,7 +73,7 @@ export default function TransactionChart() {
           style: { colors: ["#fff"], fontSize: "12px", fontWeight: "bold" },
           formatter: (val, opts) => {
             const value = opts.w.config.series[opts.seriesIndex];
-            return "$" + value.toFixed(0);
+            return "₹" + value.toFixed(0);
           },
         },
         plotOptions: {
@@ -84,7 +84,7 @@ export default function TransactionChart() {
         },
         tooltip: {
           theme: colorMode,
-          y: { formatter: (val) => "$" + val.toFixed(2) },
+          y: { formatter: (val) => "₹" + val.toFixed(2) },
         },
         responsive: [
           {
@@ -118,7 +118,7 @@ export default function TransactionChart() {
           <Text color="gray.400" fontSize="sm">
             Total Amount:{" "}
             <Text as="span" color="green.400" fontWeight="bold">
-              ${totalAmount.toFixed(2)}
+              ₹{totalAmount.toFixed(2)}
             </Text>
           </Text>
           <Text color="gray.400" fontSize="sm">

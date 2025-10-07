@@ -146,7 +146,7 @@ export default function SavingsGoals() {
       await addSavings(addingSavingsGoal._id || addingSavingsGoal.id, amount);
       toast({
         title: 'Success',
-        description: `$${amount.toFixed(2)} added to your savings goal!`,
+        description: `₹${amount.toFixed(2)} added to your savings goal!`,
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -302,7 +302,7 @@ export default function SavingsGoals() {
                       Saved
                     </Text>
                     <Text fontSize="sm" fontWeight="bold" color={textColor}>
-                      ${goal.currentAmount?.toFixed(2) || '0.00'} / ${goal.targetAmount.toFixed(2)}
+                      ₹{goal.currentAmount?.toFixed(2) || '0.00'} / ₹{goal.targetAmount.toFixed(2)}
                     </Text>
                   </Flex>
 
@@ -323,7 +323,7 @@ export default function SavingsGoals() {
                         Monthly Target
                       </Text>
                       <Text fontSize="sm" color="blue.500" fontWeight="bold">
-                        ${goal.monthlyTarget.toFixed(2)}
+                        ₹{goal.monthlyTarget.toFixed(2)}
                       </Text>
                     </Flex>
                   )}

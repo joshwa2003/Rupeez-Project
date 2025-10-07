@@ -110,6 +110,16 @@ export const recurringTransactionService = {
       headers: getAuthHeader()
     });
     return response.data;
+  },
+
+  /**
+   * Manually trigger recurring transaction processing
+   */
+  processNow: async () => {
+    const response = await axios.post(`${API_URL}/recurring-transactions/process`, {}, {
+      headers: getAuthHeader()
+    });
+    return response.data;
   }
 };
 

@@ -188,7 +188,7 @@ const SimpleAnalytics = () => {
               <Stat>
                 <StatLabel color={textColor}>Total {chartType === 'expense' ? 'Expenses' : 'Income'}</StatLabel>
                 <StatNumber color={textColor}>
-                  ${summaryStats[chartType === 'expense' ? 'totalExpense' : 'totalIncome'].toFixed(2)}
+                  ₹{summaryStats[chartType === 'expense' ? 'totalExpense' : 'totalIncome'].toFixed(2)}
                 </StatNumber>
                 <StatHelpText>
                   <StatArrow type="increase" />
@@ -205,7 +205,7 @@ const SimpleAnalytics = () => {
               <Stat>
                 <StatLabel color={textColor}>Net Amount</StatLabel>
                 <StatNumber color={summaryStats.netAmount >= 0 ? 'green.500' : 'red.500'}>
-                  ${summaryStats.netAmount.toFixed(2)}
+                  ₹{summaryStats.netAmount.toFixed(2)}
                 </StatNumber>
                 <StatHelpText>
                   <StatArrow type={summaryStats.netAmount >= 0 ? 'increase' : 'decrease'} />
@@ -276,7 +276,7 @@ const SimpleAnalytics = () => {
                             {item.category}
                           </Text>
                           <Text color={textColor} fontSize="sm">
-                            ${item.amount.toFixed(2)} ({percentage.toFixed(1)}%)
+                            ₹{item.amount.toFixed(2)} ({percentage.toFixed(1)}%)
                           </Text>
                         </Flex>
                         <Progress
@@ -325,7 +325,7 @@ const SimpleAnalytics = () => {
                     Average per Transaction
                   </Text>
                   <Text color={textColor} fontSize="sm">
-                    ${summaryStats.transactionCount > 0 
+                    ₹{summaryStats.transactionCount > 0 
                       ? (summaryStats[chartType === 'expense' ? 'totalExpense' : 'totalIncome'] / summaryStats.transactionCount).toFixed(2)
                       : '0.00'
                     }

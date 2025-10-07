@@ -30,6 +30,7 @@ import CardBody from '../Card/CardBody';
 const RecurringTransactionsList = () => {
   const [recurring, setRecurring] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [processing, setProcessing] = useState(false);
   const [selectedRecurring, setSelectedRecurring] = useState(null);
   const [historyRecurring, setHistoryRecurring] = useState(null);
   const toast = useToast();
@@ -62,6 +63,32 @@ const RecurringTransactionsList = () => {
   const handleCreate = () => {
     setSelectedRecurring(null);
     onModalOpen();
+  };
+
+  const handleManualProcess = async () => {
+    try {
+      setProcessing(true);
+      await recurringTransactionService.processNow();
+      toast({
+        title: 'Success',
+        description: 'Recurring transactions processed successfully',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      // Refresh the list to show any updates
+      await fetchRecurring();
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to process recurring transactions',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setProcessing(false);
+    }
   };
 
   const handleEdit = (item) => {
@@ -196,13 +223,24 @@ const RecurringTransactionsList = () => {
             <Text fontSize="2xl" fontWeight="bold" color="gray.700">
               Recurring Transactions
             </Text>
-            <Button
-              leftIcon={<FaPlus />}
-              colorScheme="blue"
-              onClick={handleCreate}
-            >
-              Add Recurring Transaction
-            </Button>
+            <HStack spacing={3}>
+              <Button
+                colorScheme="green"
+                size="sm"
+                onClick={handleManualProcess}
+                isLoading={processing}
+                loadingText="Processing..."
+              >
+                Process Now
+              </Button>
+              <Button
+                leftIcon={<FaPlus />}
+                colorScheme="blue"
+                onClick={handleCreate}
+              >
+                Add Recurring Transaction
+              </Button>
+            </HStack>
           </Flex>
         </CardHeader>
 

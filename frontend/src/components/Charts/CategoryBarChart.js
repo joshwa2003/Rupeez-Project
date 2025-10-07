@@ -17,7 +17,20 @@ const CategoryBarChart = () => {
   const cardBg = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const { colorMode } = useColorMode();
-  const { transactions } = useTransactions();
+  
+  // Add error handling for useTransactions
+  let transactions = [];
+  let loading = false;
+  
+  try {
+    const transactionContext = useTransactions();
+    transactions = transactionContext.transactions || [];
+    loading = transactionContext.loading || false;
+  } catch (error) {
+    console.error("Error accessing TransactionContext:", error);
+    transactions = [];
+    loading = false;
+  }
 
   // Generate modern gradient colors for categories
   const generateGradientColor = (index) => {
@@ -43,6 +56,7 @@ const CategoryBarChart = () => {
         categories: [],
         options: {},
         stats: { totalAmount: 0, categoryCount: 0, avgPerCategory: 0 },
+        categoryDetails: [],
       };
     }
 
@@ -145,7 +159,7 @@ const CategoryBarChart = () => {
       },
       dataLabels: {
         enabled: true,
-        formatter: (val) => `$${val.toFixed(0)}`,
+        formatter: (val) => `₹${val.toFixed(0)}`,
         offsetY: -20,
         style: {
           fontSize: "12px",
@@ -172,7 +186,7 @@ const CategoryBarChart = () => {
             colors: colorMode === "dark" ? "#fff" : "#333",
             fontSize: "12px",
           },
-          formatter: (val) => `$${val.toFixed(0)}`,
+          formatter: (val) => `₹${val.toFixed(0)}`,
         },
       },
       grid: {
@@ -186,7 +200,7 @@ const CategoryBarChart = () => {
       tooltip: {
         theme: colorMode,
         y: {
-          formatter: (val) => `$${val.toFixed(2)}`,
+          formatter: (val) => `₹${val.toFixed(2)}`,
         },
         style: {
           fontSize: "12px",
@@ -226,6 +240,27 @@ const CategoryBarChart = () => {
     };
   }, [transactions, colorMode]);
 
+  // Show loading state
+  if (loading) {
+    return (
+      <Box>
+        <Flex direction="column" mb="20px">
+          <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px">
+            Category Spending Analysis
+          </Text>
+          <Text color="gray.400" fontSize="sm" mb="4">
+            Loading transaction data...
+          </Text>
+        </Flex>
+        <Flex align="center" justify="center" minH="400px">
+          <Text color="gray.400" fontSize="lg">
+            Loading...
+          </Text>
+        </Flex>
+      </Box>
+    );
+  }
+
   return (
     <Box>
       {/* Header Section */}
@@ -249,7 +284,7 @@ const CategoryBarChart = () => {
               textAlign="center"
             >
               <Text fontSize="2xl" fontWeight="bold" color="blue.400">
-                ${chartData.stats.totalAmount.toFixed(0)}
+                ₹{(chartData.stats?.totalAmount || 0).toFixed(0)}
               </Text>
               <Text fontSize="sm" color="gray.500">
                 Total Spending
@@ -266,7 +301,7 @@ const CategoryBarChart = () => {
               textAlign="center"
             >
               <Text fontSize="2xl" fontWeight="bold" color="green.400">
-                {chartData.stats.categoryCount}
+                {chartData.stats?.categoryCount || 0}
               </Text>
               <Text fontSize="sm" color="gray.500">
                 Active Categories
@@ -283,7 +318,7 @@ const CategoryBarChart = () => {
               textAlign="center"
             >
               <Text fontSize="2xl" fontWeight="bold" color="purple.400">
-                ${chartData.stats.avgPerCategory.toFixed(0)}
+                ₹{(chartData.stats?.avgPerCategory || 0).toFixed(0)}
               </Text>
               <Text fontSize="sm" color="gray.500">
                 Avg per Category
@@ -295,13 +330,15 @@ const CategoryBarChart = () => {
 
       {/* Chart Section */}
       <Box minH="400px" w="100%">
-        {transactions.length > 0 ? (
-          <Chart
-            options={chartData.options}
-            series={chartData.series}
-            type="bar"
-            height={400}
-          />
+        {transactions.length > 0 && chartData.series && chartData.series.length > 0 ? (
+          <Box>
+            <Chart
+              options={chartData.options}
+              series={chartData.series}
+              type="bar"
+              height={400}
+            />
+          </Box>
         ) : (
           <Flex align="center" justify="center" minH="400px" direction="column">
             <Text color="gray.400" fontSize="lg" mb="4">
@@ -315,7 +352,7 @@ const CategoryBarChart = () => {
       </Box>
 
       {/* Category Details Section */}
-      {chartData.categoryDetails.length > 0 && (
+      {chartData.categoryDetails && chartData.categoryDetails.length > 0 && (
         <Box mt="6">
           <Text color={textColor} fontSize="md" fontWeight="bold" mb="4">
             Category Breakdown
@@ -362,12 +399,12 @@ const CategoryBarChart = () => {
                   </Flex>
                   
                   <Text fontSize="lg" fontWeight="bold" color="green.400" mb="1">
-                    ${category.amount.toFixed(2)}
+                    ₹{category.amount.toFixed(2)}
                   </Text>
                   
                   <Flex justify="space-between" fontSize="xs" color="gray.500">
-                    <Text>Income: ${category.types.income.toFixed(0)}</Text>
-                    <Text>Expense: ${category.types.expense.toFixed(0)}</Text>
+                    <Text>Income: ₹{category.types.income.toFixed(0)}</Text>
+                    <Text>Expense: ₹{category.types.expense.toFixed(0)}</Text>
                   </Flex>
                 </Box>
               </GridItem>

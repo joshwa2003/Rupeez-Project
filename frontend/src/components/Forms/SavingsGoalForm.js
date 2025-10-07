@@ -154,7 +154,7 @@ const SavingsGoalForm = ({ onSubmit, onCancel, initialData = {} }) => {
         </FormControl>
 
         <FormControl isInvalid={errors.targetAmount}>
-          <FormLabel>Target Amount ($)</FormLabel>
+          <FormLabel>Target Amount (₹)</FormLabel>
           <NumberInput
             value={formData.targetAmount}
             onChange={(valueString) => handleInputChange('targetAmount', valueString)}
