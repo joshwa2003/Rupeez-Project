@@ -9,6 +9,7 @@ import {
 // Custom components
 import Card from "components/Card/Card.js";
 import PieChart from "components/Charts/PieChart";
+import CategoryBarChart from "components/Charts/CategoryBarChart";
 import React, { useMemo } from "react";
 // Transaction context
 import { useTransactions } from "contexts/TransactionContext";
@@ -107,7 +108,8 @@ export default function TransactionChart() {
   }, [transactions]);
 
   return (
-    <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
+    <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }} gap="6">
+      {/* Existing Pie Chart Card */}
       <Card p="20px" maxW={{ sm: "320px", md: "100%" }}>
         <Flex direction="column" mb="40px">
           <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px">
@@ -143,6 +145,11 @@ export default function TransactionChart() {
             </Flex>
           )}
         </Box>
+      </Card>
+
+      {/* New Modern Bar Chart Card */}
+      <Card p="20px" maxW={{ sm: "320px", md: "100%" }}>
+        <CategoryBarChart />
       </Card>
     </Flex>
   );
