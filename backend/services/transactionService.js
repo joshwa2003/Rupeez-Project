@@ -249,10 +249,75 @@ const getTransactionsByDateRange = async (userId, startDate, endDate) => {
   }
 };
 
+/**
+ * Get user transactions with timeframe filter for AI analysis
+ * @param {string} userId - User ID
+ * @param {string} timeframe - Timeframe (7d, 30d, 90d, 180d, 1y)
+ * @returns {Promise<Array>} Array of transactions
+ */
+const getUserTransactions = async (userId, timeframe = '90d') => {
+  try {
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
+
+    // Calculate date range based on timeframe
+    const now = new Date();
+    let startDate;
+
+    switch (timeframe) {
+      case '7d':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '30d':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case '90d':
+        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      case '180d':
+        startDate = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+        break;
+      case '1y':
+        startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+    }
+
+    const transactions = await Transaction.find({
+      userId,
+      date: { $gte: startDate },
+      status: 'completed' // Only include completed transactions for AI analysis
+    })
+      .sort({ date: -1 })
+      .lean();
+
+    return transactions.map(transaction => ({
+      id: transaction._id.toString(),
+      type: transaction.type,
+      amount: transaction.amount,
+      currency: transaction.currency || 'USD',
+      category: transaction.category,
+      date: transaction.date,
+      paymentMethod: transaction.paymentMethod,
+      notes: transaction.notes,
+      status: transaction.status,
+      attachment: transaction.attachment,
+      createdAt: transaction.createdAt,
+      updatedAt: transaction.updatedAt
+    }));
+  } catch (error) {
+    console.error('Error fetching user transactions:', error);
+    throw new Error('Failed to fetch user transactions');
+  }
+};
+
 module.exports = {
   getAllTransactions,
   getTransactionsWithPagination,
   getTransactionStats,
   getTransactionsByCategory,
-  getTransactionsByDateRange
+  getTransactionsByDateRange,
+  getUserTransactions
 };

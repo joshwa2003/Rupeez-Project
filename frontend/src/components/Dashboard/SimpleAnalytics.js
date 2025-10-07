@@ -29,6 +29,7 @@ import CardBody from '../Card/CardBody';
 import { useTransactions } from '../../contexts/TransactionContext';
 import { useSavingsGoals } from '../../contexts/SavingsGoalContext';
 import { chartService } from '../../services/chartService';
+import AIInsights from './AIInsights';
 
 const SimpleAnalytics = () => {
   const { transactions, loading: transactionsLoading } = useTransactions();
@@ -251,8 +252,8 @@ const SimpleAnalytics = () => {
         </GridItem>
       </Grid>
 
-      {/* Category Breakdown */}
-      <Grid templateColumns={{ base: '1fr', lg: 'repeat(2, 1fr)' }} gap={6}>
+      {/* Category Breakdown and AI Insights */}
+      <Grid templateColumns={{ base: '1fr', lg: 'repeat(3, 1fr)' }} gap={6}>
         <GridItem>
           <Card bg={cardBg} border="1px solid" borderColor={borderColor}>
             <CardHeader>
@@ -349,6 +350,10 @@ const SimpleAnalytics = () => {
               </VStack>
             </CardBody>
           </Card>
+        </GridItem>
+
+        <GridItem>
+          <AIInsights timeframe={timeFilter} />
         </GridItem>
       </Grid>
     </Box>

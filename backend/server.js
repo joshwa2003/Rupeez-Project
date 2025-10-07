@@ -21,6 +21,7 @@ const exportRoutes = require('./routes/export');
 const currencyRoutes = require('./routes/currency');
 const groupRoutes = require('./routes/groups');
 const recurringTransactionsRoutes = require('./routes/recurringTransactions');
+const aiInsightsRoutes = require('./routes/aiInsights');
 
 // Import scheduler
 const recurringTransactionScheduler = require('./services/recurringTransactionScheduler');
@@ -78,6 +79,7 @@ app.use('/api/export', exportRoutes);
 app.use('/api/currency', currencyRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/api/recurring-transactions', recurringTransactionsRoutes);
+app.use('/api/ai', aiInsightsRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

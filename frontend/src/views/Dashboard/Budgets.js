@@ -22,6 +22,7 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import BudgetManager from 'components/Budgets/BudgetManager';
 import SetBudgetForm from 'components/Budgets/SetBudgetForm';
+import AIBudgetRecommendations from 'components/Budgets/AIBudgetRecommendations';
 import { budgetsAPI } from 'services/api';
 
 const Budgets = () => {
@@ -95,6 +96,22 @@ const Budgets = () => {
     loadBudgetsAndAlerts(); // Refresh data after update/delete
   };
 
+  const handleAICreateBudget = (budgetData) => {
+    // Pre-fill the form with AI recommendation and open modal
+    handleCreateBudget(budgetData);
+  };
+
+  const handleAIEditBudget = (budgetData) => {
+    // Handle AI-suggested budget edits
+    toast({
+      title: "AI Recommendation",
+      description: `Consider updating your ${budgetData.category} budget to ₹${budgetData.limitAmount}`,
+      status: "info",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+
   return (
     <Flex direction='column' pt={{ base: "120px", md: "75px" }}>
       {/* Page Header with Add Budget Button */}
@@ -160,6 +177,14 @@ const Budgets = () => {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
+
+      {/* AI Budget Recommendations */}
+      <Box mb={6}>
+        <AIBudgetRecommendations
+          onCreateBudget={handleAICreateBudget}
+          onEditBudget={handleAIEditBudget}
+        />
+      </Box>
 
       {/* Budget Manager Component */}
       <BudgetManager
