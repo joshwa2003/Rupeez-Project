@@ -373,7 +373,7 @@ export default function ReportDashboard() {
         title: "Error",
         description: "Failed to process report data",
         status: "error",
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     } finally {

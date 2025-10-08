@@ -157,7 +157,7 @@ const GroupDetailsModal = ({ isOpen, onClose, group }) => {
         title: 'Error completing settlement',
         description: error.message,
         status: 'error',
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     }

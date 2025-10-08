@@ -34,13 +34,13 @@ const mockData = {
   // Daily data for trend chart
   trend: {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    income: [25001, 32000, 18000, 27000, 42000, 15001, 22000],
-    expense: [18000, 24000, 22000, 17000, 35001, 25001, 20000]
+    income: [25000, 32000, 18000, 27000, 42000, 15000, 22000],
+    expense: [18000, 24000, 22000, 17000, 35000, 25000, 20000]
   },
   // Category data for pie/bar chart
   categories: [
     { name: 'Food', amount: 12500 },
-    { name: 'Rent', amount: 25001 },
+    { name: 'Rent', amount: 25000 },
     { name: 'Utilities', amount: 8000 },
     { name: 'Entertainment', amount: 5500 },
     { name: 'Transportation', amount: 7000 }
@@ -48,7 +48,7 @@ const mockData = {
   // Comparison with previous period
   comparison: {
     currentTotal: 161000,
-    previousTotal: 145001,
+    previousTotal: 145000,
     percentageChange: 11.03
   }
 };

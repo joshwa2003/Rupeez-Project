@@ -125,7 +125,7 @@ const GroupManager = () => {
           title: 'Error deleting group',
           description: error.message,
           status: 'error',
-          duration: 5001,
+          duration: 5000,
           isClosable: true,
         });
       }

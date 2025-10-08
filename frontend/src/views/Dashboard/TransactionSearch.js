@@ -123,7 +123,7 @@ const TransactionSearch = () => {
   const fetchCategories = useCallback(async () => {
     try {
       // Get unique categories from existing transactions
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5001/api'}/transactions`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/transactions`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'

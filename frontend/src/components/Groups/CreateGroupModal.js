@@ -153,7 +153,7 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
         title: 'Group created successfully',
         description: `${formData.name} has been created with ${formData.members.length + 1} members`,
         status: 'success',
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
 
@@ -177,7 +177,7 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
         title: 'Error creating group',
         description: error.message,
         status: 'error',
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     }

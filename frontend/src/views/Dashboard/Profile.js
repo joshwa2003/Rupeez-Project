@@ -74,7 +74,7 @@ function Profile() {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await axios.get('http://localhost:5001/api/users/profile', {
+      const response = await axios.get('http://localhost:5000/api/users/profile', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -122,7 +122,7 @@ function Profile() {
           title: "File Too Large",
           description: "Please select an image smaller than 5MB.",
           status: "error",
-          duration: 5001,
+          duration: 5000,
           isClosable: true,
         });
         return;
@@ -136,7 +136,7 @@ function Profile() {
           title: "Invalid File Type",
           description: "Please select a JPG, PNG, GIF, or WebP image.",
           status: "error",
-          duration: 5001,
+          duration: 5000,
           isClosable: true,
         });
         return;
@@ -155,7 +155,7 @@ function Profile() {
           title: "File Read Error",
           description: "Failed to read the selected file. Please try again.",
           status: "error",
-          duration: 5001,
+          duration: 5000,
           isClosable: true,
         });
       };
@@ -169,7 +169,7 @@ function Profile() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put('http://localhost:5001/api/users/profile', {
+      const response = await axios.put('http://localhost:5000/api/users/profile', {
         name: formData.name,
         phone: formData.phone,
         profilePicture: formData.profilePicture
@@ -200,7 +200,7 @@ function Profile() {
         title: "Update Failed",
         description: errorMessage,
         status: "error",
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     } finally {
@@ -224,7 +224,7 @@ function Profile() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put('http://localhost:5001/api/users/change-password', {
+      const response = await axios.put('http://localhost:5000/api/users/change-password', {
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword
       }, {
@@ -249,7 +249,7 @@ function Profile() {
         title: "Password Change Failed",
         description: errorMessage,
         status: "error",
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     } finally {
@@ -261,7 +261,7 @@ function Profile() {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5001/api/auth/logout-all', {}, {
+      await axios.post('http://localhost:5000/api/auth/logout-all', {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -286,7 +286,7 @@ function Profile() {
         title: "Logout Failed",
         description: "Failed to logout from all devices.",
         status: "error",
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     } finally {

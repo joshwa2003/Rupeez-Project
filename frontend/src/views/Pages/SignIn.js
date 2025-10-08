@@ -74,7 +74,7 @@ function SignIn() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
         email: formData.email.trim(),
         password: formData.password
       });
@@ -106,7 +106,7 @@ function SignIn() {
         title: "Login Failed",
         description: errorMessage,
         status: "error",
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     } finally {

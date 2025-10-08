@@ -32,7 +32,7 @@ A Node.js Express backend API for the Money Tracker application with MongoDB int
 2. **Environment Setup**
    - Copy `.env` file and update the values:
    ```bash
-   PORT=5001
+   PORT=5000
    NODE_ENV=development
    FRONTEND_URL=http://localhost:3000
    MONGODB_URI=mongodb://localhost:27017/money-tracker
@@ -57,7 +57,7 @@ npm run dev
 npm start
 ```
 
-The server will start on `http://localhost:5001`
+The server will start on `http://localhost:5000`
 
 ## API Endpoints
 

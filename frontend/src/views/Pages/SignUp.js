@@ -86,7 +86,7 @@ function SignUp() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/register', {
+      const response = await axios.post('http://localhost:5000/api/auth/register', {
         name: formData.name.trim(),
         email: formData.email.trim(),
         password: formData.password
@@ -119,7 +119,7 @@ function SignUp() {
         title: "Registration Failed",
         description: errorMessage,
         status: "error",
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     } finally {

@@ -24,6 +24,12 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -31,12 +37,14 @@ import { EditIcon, DeleteIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import Card from 'components/Card/Card';
 import CardBody from 'components/Card/CardBody';
 import CardHeader from 'components/Card/CardHeader';
+import SetBudgetForm from './SetBudgetForm';
 import { budgetsAPI } from 'services/api';
 
 const BudgetManager = ({ budgets, isLoading, onBudgetUpdate }) => {
   const [editingBudget, setEditingBudget] = useState(null);
   const [deleteBudgetId, setDeleteBudgetId] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
+  const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
   const toast = useToast();
 
   const textColor = useColorModeValue("gray.700", "white");
@@ -58,12 +66,12 @@ const BudgetManager = ({ budgets, isLoading, onBudgetUpdate }) => {
 
   const handleEditBudget = (budget) => {
     setEditingBudget(budget);
-    // TODO: Open edit modal/form
+    onEditOpen();
   };
 
   const handleDeleteBudget = (budgetId) => {
     setDeleteBudgetId(budgetId);
-    onOpen();
+    onDeleteOpen();
   };
 
   const confirmDelete = async () => {
@@ -85,12 +93,39 @@ const BudgetManager = ({ budgets, isLoading, onBudgetUpdate }) => {
         title: "Delete Failed",
         description: "Failed to delete budget. Please try again.",
         status: "error",
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     } finally {
-      onClose();
+      onDeleteClose();
       setDeleteBudgetId(null);
+    }
+  };
+
+  const handleUpdateBudget = async (budgetData) => {
+    try {
+      const response = await budgetsAPI.update(editingBudget._id, budgetData);
+      if (response.status === 'success') {
+        toast({
+          title: "Budget Updated",
+          description: "Budget has been updated successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        onEditClose();
+        setEditingBudget(null);
+        onBudgetUpdate();
+      }
+    } catch (error) {
+      console.error('Error updating budget:', error);
+      toast({
+        title: "Update Failed",
+        description: "Failed to update budget. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
@@ -216,8 +251,23 @@ const BudgetManager = ({ budgets, isLoading, onBudgetUpdate }) => {
         </CardBody>
       </Card>
 
+      {/* Edit Budget Modal */}
+      <Modal isOpen={isEditOpen} onClose={onEditClose} size="lg">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edit Budget</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <SetBudgetForm
+              initialData={editingBudget}
+              onSubmit={handleUpdateBudget}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
       {/* Delete Confirmation Dialog */}
-      <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={undefined}>
+      <AlertDialog isOpen={isDeleteOpen} onClose={onDeleteClose} leastDestructiveRef={undefined}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -229,7 +279,7 @@ const BudgetManager = ({ budgets, isLoading, onBudgetUpdate }) => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={onClose}>
+              <Button onClick={onDeleteClose}>
                 Cancel
               </Button>
               <Button colorScheme="red" onClick={confirmDelete} ml={3}>

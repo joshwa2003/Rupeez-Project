@@ -184,7 +184,7 @@ const SettlementModal = ({ isOpen, onClose, group, suggestions }) => {
         title: 'Settlement created successfully',
         description: `${getMemberDisplayName(formData.fromMemberId)} will pay ${getMemberDisplayName(formData.toMemberId)} ${formData.currency} ${formData.amount}`,
         status: 'success',
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
 
@@ -205,7 +205,7 @@ const SettlementModal = ({ isOpen, onClose, group, suggestions }) => {
         title: 'Error creating settlement',
         description: error.message,
         status: 'error',
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     }

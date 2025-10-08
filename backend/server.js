@@ -19,7 +19,6 @@ const savingsGoalsRoutes = require('./routes/savingsGoals');
 const budgetRoutes = require('./routes/budgets');
 const exportRoutes = require('./routes/export');
 const currencyRoutes = require('./routes/currency');
-const groupRoutes = require('./routes/groups');
 const recurringTransactionsRoutes = require('./routes/recurringTransactions');
 const aiInsightsRoutes = require('./routes/aiInsights');
 
@@ -77,7 +76,6 @@ app.use('/api/savings-goals', savingsGoalsRoutes);
 app.use('/api/budgets', budgetRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/currency', currencyRoutes);
-app.use('/api/groups', groupRoutes);
 app.use('/api/recurring-transactions', recurringTransactionsRoutes);
 app.use('/api/ai', aiInsightsRoutes);
 
@@ -107,7 +105,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

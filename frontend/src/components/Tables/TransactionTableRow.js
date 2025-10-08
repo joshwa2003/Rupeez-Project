@@ -72,7 +72,7 @@ function TransactionTableRow(props) {
 
   // Format amount for display
   const formatAmount = (amount) => {
-    return `${transaction.type === 'income' ? '+' : '-'}$${parseFloat(amount).toFixed(2)}`;
+    return `${transaction.type === 'income' ? '+' : '-'}₹${parseFloat(amount).toFixed(2)}`;
   };
 
   // Handle edit transaction
@@ -131,7 +131,7 @@ function TransactionTableRow(props) {
         return transaction.attachment;
       }
       // Legacy local file path
-      return `http://localhost:5001${transaction.attachment}`;
+      return `http://localhost:5000${transaction.attachment}`;
     } else if (transaction.attachment instanceof File) {
       return URL.createObjectURL(transaction.attachment);
     } else if (transaction.attachment.url || transaction.attachment.path) {

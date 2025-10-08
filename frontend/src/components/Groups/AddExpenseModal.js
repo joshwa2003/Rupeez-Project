@@ -296,7 +296,7 @@ const AddExpenseModal = ({ isOpen, onClose, group }) => {
         title: 'Expense added successfully',
         description: `${formData.category} expense of ${formData.currency} ${formData.amount} has been added`,
         status: 'success',
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
 
@@ -320,7 +320,7 @@ const AddExpenseModal = ({ isOpen, onClose, group }) => {
         title: 'Error adding expense',
         description: error.message,
         status: 'error',
-        duration: 5001,
+        duration: 5000,
         isClosable: true,
       });
     }
